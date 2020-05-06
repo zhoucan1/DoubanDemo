@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>双向数据绑定</title>
+		<style type="text/css">
+			#p1{
+				width: 300px;
+				height: 300px;
+				background-color: green;
+				text-align: center;
+				line-height: 300px;
+			}
+			#A,#B{
+				width: 300px;
+				height: 100px;
+				background-color: palevioletred;
+				color: white;
+				text-align: center;
+				line-height: 100px;
+				margin:2px;
+			}
+			#B{
+				background-color: aquamarine;
+			}
+			.c{
+				width: 400px;
+				height: 100px;
+				background-color: pink;
+				color: white;
+				font-size: 24px;
+				font-weight: bold;
+				line-height: 100px;
+				text-align: center;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- 单向数据绑定 -->
+			<p v-text="msg"></p>
+			<button @click="changeMsg()" type="button">改变</button><br>
+			<!-- 双向数据绑定 -->
+			<input v-model="msg" type="text"><br/>
+			
+			<!-- 练习，商品的总价 -->
+			单价：<span v-text="price"></span><br/>
+			数量：<button @click="dec()">-</button>
+			<span v-text="count"></span>
+			<button @click="count++">+</button>
+			<br/>
+			总价：<span v-text="price * count"></span><br>
+			
+			<!-- v-model双向数据绑定用来input(text,password,radio,checkbox),select,textarea等表单元素上都可以使用双向数据绑定 -->
+			<select v-model="age">
+				<option value ="10">10</option>
+				<option value ="20">20</option>
+				<option value ="30">30</option>
+				<option value ="40">40</option>
+				<option value ="50">50</option>
+			</select><br>
+			年龄：<span v-text="age"></span><br>
+			<input v-model="sex" type="radio" value="男"/>男
+			<input v-model="sex" type="radio" value="女"/>女<br>
+			
+			<!-- v-if指令：用来根据表达式的结果是否为真决定是否插入该节点 -->
+			<button @click="see = !see" type="button">显示/隐藏</button>
+			<p v-if="see" :id="ID">one</p>
+			<button @click="choose = true">126邮箱</button>
+			<button @click="choose = false">163邮箱</button>
+			<!-- template作为一个容器相当于div -->
+			<template v-if="choose"><div id="A">126邮箱</div></template>
+			<template v-else><div id="B">163邮箱</div></template>
+			<!-- v-if v-else-if v-else -->
+			<button @click="page = 1">公告</button>
+			<button @click="page = 2">论坛</button>
+			<button @click="page = 3">规则</button>
+			<button @click="page = 4">安全</button>
+			<div v-if="page == 1" class="c">公告</div>
+			<div v-else-if="page == 2" class="c">论坛</div>
+			<div v-else-if="page == 3" class="c">规则</div>
+			<div v-else-if="page == 4" class="c">安全</div>
+			<!-- v-show和v-if功能一样，但v-show更高效，确保值发生改变时，会重新渲染 -->
+		</div>
+	</body>
+</html>
+<script src="js/Vue.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	var ve = new Vue({
+		el:'#app',
+		data:{
+			msg:'hello',
+			price:9,
+			count:1,
+			age:18,
+			sex:'男',
+			ID:'p1',
+			see:true,
+			choose:true,
+			page:1
+		},
+		methods:{
+			changeMsg:function(){
+				this.msg = '不hello';
+			},
+			dec:function(){
+				this.count--;
+				if(this.count < 0){
+					this.count = 0;
+				}
+			}
+		}
+	});
+</script>

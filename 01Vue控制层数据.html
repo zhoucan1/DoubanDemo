@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="js/Vue.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#one{
+				font-size: 20px;
+				color:green;
+				font-weight: bold;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!--指令：vue提供的功能操作 -->
+			<!-- {{}}指令  作用：a.能够识别数据源中的数据b.输出对象的属性以及函数的返回值-->
+			<p>{{name}}</p>
+			<p>{{'name'}}</p>
+			<p>{{age}}</p>
+			<p>{{hobby[1]}}</p>
+			<p>{{getScore()}}</p>
+			<p>{{getA('大王 ')}}</p>
+			<p>{{getB(9)}}</p>
+			<p>{{ran(1,12)}}</p>
+			
+			<!-- vue.js中提供了完全的javaScript表达式支持 -->
+			<p>{{5 + 9}}</p>
+			<p>{{5 > 9}}</p>
+			<p>{{OK ? '1' : '2'}}</p>
+			<p>{{'OK' ? '1' : '2'}}</p>
+			
+			<!-- vue指令：把vue中的指令渲染到元素标签中 -->
+			<!-- v-text 指令：绘制文本，类似原生js中的innertext -->
+			<p v-text="name"></p>
+			<p v-text="'name'"></p>
+			<p v-text="baidu"></p>
+			
+			<!-- v-html 指令：绘制文本，元素类似原生js中的innerhtml -->
+			<p v-html="baidu"></p>
+			
+			<!-- vue中的属性绑定指令 v-bind:属性名 简写 :属性名-->
+			<p id="one">大周</p>
+			<p v-bind:id="a">小周</p>
+			<input type="text" v-bind:value="name" />
+			<input type="text" :value="age" />
+			<!-- vue中的事件绑定指令 v-on:事件名 简写 @事件名-->
+			<p :id="a" v-on:click="click()">点击</p>
+			
+			<!-- v-model 双向数据绑定 理解：输入框绑定了数据源sex的值，数据源sex绑定了输入框的值，所以当输入框的值发生改变时，使用过该数据源的地方，就会重新渲染-->
+			<input v-model="sex" type="text">
+			<span v-text="sex"></span><br>
+			
+			<!-- v-for指令：遍历数组或者对象，同时创建DOM元素节点 -->
+			<input v-model="liData" type="text"/>
+			<ul>
+				<li v-for="(v,i) in arrType">
+					<span v-text="v"></span>
+					-----
+					<span v-text="i"></span>
+					-----
+					<button @click="del(i)" type="button">删除</button>
+				</li>
+			</ul>
+			<button @click="add()" type="button">增加</button>
+			
+		</div>
+	</body>
+</html>
+
+<script type="text/javascript">
+	// 创建一个vue实例对象
+	var ve = new Vue({
+		// 实例中的el属性，作用：指定布局中的id，该id对应的标签内部的所有元素都可以被该实例控制，超出则无效
+		el:'#app',
+		// data属性：vue中用来提供数据源的
+		data:{
+			name:'小王',
+			age:40,
+			sex:'boy',
+			hobby:['点烟','倒酒','给人烫头'],
+			arrType:['科技','娱乐','视频','综艺'],
+			OK:false,
+			baidu:'<a href="http://www.baidu.com">百度</a>',
+			a:'one',
+			liData:'CBA'
+		},
+		// 为vue中实例对象设置方法
+		methods:{
+			getScore:function(){
+				return 59;
+			},
+			getA:function(a){
+				return a +'hello';
+			},
+			click:function(){
+				document.body.style.backgroundColor = 'yellow';
+				// 改变数据源的值,重新渲染
+				this.name = '少伟';
+			},
+			add:function(){
+				this.arrType.push(this.liData);
+			},
+			del:function(a){
+				this.arrType.splice(a,1);
+			},
+			// 另一种函数的写法，键值对
+			getB(b){
+				return b + 10;
+			},
+			// 随机数
+			ran(num1,num2){
+				return Math.floor(Math.random()*(num2 - num1 + 1) + num1);
+			}
+			
+		}
+	});
+</script>
